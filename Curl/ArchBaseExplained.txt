@@ -1,0 +1,55 @@
+#!/bin/bash (needed for Scripts executed in bash)
+
+# ----------------------------------------------------- 
+# Test Working Directory isnt within Repo
+# ----------------------------------------------------- 
+
+if [[ "$(basename "$(pwd)" | tr '[:upper:]' '[:lower:]')" =~ ^archbaseinstall$ ]]; then
+
+# if = open if expression
+# [[ = start of conditional expression
+# $basename "$(pwd)" =  uses basename command utility to strip directory and trailing suffix from supplied file name (pwd = print working directory)
+# | = pipes the previous output into the next command
+# tr '[:upper:]' '[:lower:]' = tr is a utility that translates characters in this instance any uppercase characters to lowercase
+# =~ = bash operate literally compares whats on the right with whats on the left
+# ^archbaseinstall$ = regex query, ^ = start, archbaseinstall = letters to match, $ = end of line
+# ]] = close of conditional expression
+# then = action to do on positive match of conditional expression
+
+    echo " This is the Repository folder please run archbaseinstall.sh instead" # Writes output to the cli
+    exit #exits from script
+fi #closes if statement
+
+# ----------------------------------------------------- 
+# Test if Repo is Already Downloaded
+# ----------------------------------------------------- 
+
+if [[ -f $HOME/ArchBaseInstall ]]; then # if statement with condditional expression to test if the ArchBaseInstall folder already exists
+    echo "Repository Already Exists Running Install Sript" # writes to cli
+    cd $HOME/ArchBaseInstall # changes directory to downloaded repo
+    exec ./archbaseinstall.sh # executes shell script
+    exit # exits script
+fi  # closes if statement
+
+# ----------------------------------------------------- 
+# Install Git
+# ----------------------------------------------------- 
+
+echo "Installing git" # write to cli
+pacman -Sy --noconfirm git #pacman command to install packages (eg git)
+
+# ----------------------------------------------------- 
+# Clone Git Repo
+# ----------------------------------------------------- 
+
+echo "Cloning Install Scripts" # write to cli
+git clone https://github.com/Originah/ArchBaseInstall # clone github repo
+
+# ----------------------------------------------------- 
+# Install Git
+# ----------------------------------------------------- 
+
+echo "Running Install Script" # write to cli
+cd $HOME/ArchBaseInstall # change directory
+exec ./archbaseinstall.sh # execute shell script
+
