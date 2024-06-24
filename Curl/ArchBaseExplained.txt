@@ -1,4 +1,4 @@
-#!/bin/bash (needed for Scripts executed in bash)
+#!/bin/bash (shebang line needed to determine script is ran in bash)
 
 # ----------------------------------------------------- 
 # Test Working Directory isnt within Repo
